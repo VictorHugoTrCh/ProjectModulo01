@@ -48,11 +48,21 @@ def add_product_to_shopping_car(code_product):
             break
 
 
+def remove_product_to_shopping_car(code_product):
+    for i, product in enumerate(SHOPPING_CART):
+        if code_product == product["code"]:
+            SHOPPING_CART.pop(i)
+            print(f"✔ El Producto {product["code"]} fue eliminado al carrito.")
+            break
 
-# show_menu()
+
+
+
+show_menu()
 # show_catalog()
 # os.system("clear")
-# add_product_to_shopping_car("A002")
+add_product_to_shopping_car("A002")
+remove_product_to_shopping_car("A002")
 
 
 def add_order_to_file(registerd_at, list_products, total_price):
@@ -72,19 +82,19 @@ def add_order_to_file(registerd_at, list_products, total_price):
         archivo.write(complete_order)
 
 
-add_order_to_file(
-    "20-04-2025 10:56:50",
-    [{
-        "quantity": 1,
-        "code":"A001",
-        "name":"Pan",
-        "price":1.5
-    },
-    {
-        "quantity": 1,
-        "code":"A002",
-        "name":"Leche",
-        "price":2.5
-    }],
-    4.0
-    )
+# add_order_to_file(
+#     "20-04-2025 10:56:50",
+#     [{
+#         "quantity": 1,
+#         "code":"A001",
+#         "name":"Pan",
+#         "price":1.5
+#     },
+#     {
+#         "quantity": 1,
+#         "code":"A002",
+#         "name":"Leche",
+#         "price":2.5
+#     }],
+#     4.0
+#     )
