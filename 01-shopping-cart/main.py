@@ -99,6 +99,39 @@ show_cart()
 checkout()
 
 
+def main():
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        show_menu()
+        option = input("Elige una opcion: ")
+
+        if option == "1":
+            show_catalog()
+        elif option == "2":
+            code = input("Ingrese el código del producto: ")
+            add_product_to_shopping_cart(code)
+        elif option == "3":
+            code = input("Ingrese el código del producto a eliminar: ")
+            remove_product_from_cart(code)
+        elif option == "4":
+            clear_cart()
+        elif option == "5":
+            show_cart()
+        elif option == "6":
+            checkout()
+        elif option == "7":
+            print("Hasta pronto 👋")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+        input("\nPresione Enter para confirmar...")
+
+
+if __name__ = "__main__":
+    main()
+
+
+
 def add_order_to_file(registerd_at, list_products, total_price):
     complete_order = "=============================\n\n"
     complete_order += f"Fecha: {registerd_at}\n\n"
