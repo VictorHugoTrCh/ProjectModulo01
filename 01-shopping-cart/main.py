@@ -56,6 +56,9 @@ def remove_product_to_shopping_car(code_product):
             break
 
 
+def clear_to_shopping_car():
+    SHOPPING_CART.clear()
+    print("El carrito ha sido limpiado")
 
 
 show_menu()
@@ -63,6 +66,7 @@ show_menu()
 # os.system("clear")
 add_product_to_shopping_car("A002")
 remove_product_to_shopping_car("A002")
+clear_to_shopping_car()
 
 
 def add_order_to_file(registerd_at, list_products, total_price):
