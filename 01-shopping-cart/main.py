@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 FILE_NAME = 'ventas.txt'
 
@@ -61,12 +62,41 @@ def clear_to_shopping_car():
     print("El carrito ha sido limpiado")
 
 
+def show_cart():
+    if not SHOPPING_CART:
+        print("El carrito es vacio")
+        return
+    else:
+        print("\nPRODUCTOS EN EL CARRITO:")
+        print("Cantidad | Código | Producto | Precio | Subtotal")
+        total = 0
+        for product in SHOPPING_CART:
+            subtotal = product["price"] * product["quantity"]
+            total += subtotal
+            print(f"{product['quantity']} | {product['code']} | {product['name']}{' '*(10-len(product['name']))} | S/{product['price']:.2f} | S/{subtotal:.2f}")
+
+def checkout():
+    if not SHOPPING_CART:
+        print("El carrito es vacio")
+        return
+    else:
+        total = sum(item['price'] * item['quantity'] for item in SHOPPING_CART)
+        registerd_at = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        add_order_to_file(registerd_at, SHOPPING_CART,total)
+        print(f"✔ Compra finalizada. Total: S/{total:.2f}")
+        clear_to_shopping_car()
+
+
+
+
 show_menu()
 # show_catalog()
 # os.system("clear")
 add_product_to_shopping_car("A002")
 remove_product_to_shopping_car("A002")
 clear_to_shopping_car()
+show_cart()
+checkout()
 
 
 def add_order_to_file(registerd_at, list_products, total_price):
@@ -86,19 +116,19 @@ def add_order_to_file(registerd_at, list_products, total_price):
         archivo.write(complete_order)
 
 
-# add_order_to_file(
-#     "20-04-2025 10:56:50",
-#     [{
-#         "quantity": 1,
-#         "code":"A001",
-#         "name":"Pan",
-#         "price":1.5
-#     },
-#     {
-#         "quantity": 1,
-#         "code":"A002",
-#         "name":"Leche",
-#         "price":2.5
-#     }],
-#     4.0
-#     )
+add_order_to_file(
+    "20-04-2025 10:56:50",
+    [{
+        "quantity": 1,
+        "code":"A001",
+        "name":"Pan",
+        "price":1.5
+    },
+    {
+        "quantity": 1,
+        "code":"A002",
+        "name":"Leche",
+        "price":2.5
+    }],
+    4.0
+    )
