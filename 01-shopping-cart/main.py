@@ -73,7 +73,7 @@ def add_product_to_shopping_cart(code_product: str,quantity_product: int) -> Non
                 cart_item["quantity"] = quantity
                 SHOPPING_CART.append(cart_item)
                 return print(f"✔ El Producto {product["code"]} fue agregado al carrito.")
-        print(f"❌ El código {code_product} no existe en el catálogo.")
+        print(f"El código {code_product} no existe en el catálogo.")
     except Exception as e:
         print("Error al agregar producto: {e}")
 
@@ -85,6 +85,7 @@ def remove_product_to_shopping_cart(code_product: str) -> None:
                 SHOPPING_CART.pop(i)
                 print(f"✔ El Producto {product["code"]} fue eliminado al carrito.")
                 return
+        print(f"El producto con código {code_product} no está en el carrito.")
     except Exception as e:
         print("Error al eliminar producto {e}")
 
@@ -123,7 +124,7 @@ def checkout() -> None:
             total = sum(item['price'] * item['quantity'] for item in SHOPPING_CART)
             registerd_at = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             add_order_to_file(registerd_at, SHOPPING_CART,total)
-            print(f"✔ Compra finalizada. Total: S/{total:.2f}")
+            print(f"Compra finalizada. Total: S/{total:.2f}")
             clear_cart()
     except Exception as e:
         print("Error al finalizar la compra: {e}")
@@ -169,6 +170,7 @@ def main():
             else:
                 print("Opción no válida. Intente nuevamente.")
             input("\nPresione Enter para confirmar...")
+        
         except Exception as e:
             print("Error inesperado:  {e}")
             input("\nPresione Enter para confirmar...")
