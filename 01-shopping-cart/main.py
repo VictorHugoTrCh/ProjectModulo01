@@ -41,18 +41,29 @@ def show_catalog():
         print(f" {product["code"]} | {product["name"]}{" "*(10-len(product["name"]))} | {product["price"]}")
 
 
-def add_product_to_shopping_cart(code_product):
+def add_product_to_shopping_cart(code_product,quantity_product):
+
+    try:
+        quantity = int(quantity_product)
+        if quantity <= 0:
+            print("La Cantidad debe ser un número positivo")
+            return
+    except ValueError:
+        print("La cantidad debe ser un número válido")
+        return
+
+
     for product in WAREHOUSE:
         if code_product == product["code"]:
 
             for cart_item in SHOPPING_CART:
                 if cart_item["code"] == code_product:
-                    cart_item["quantity"] += 1
+                    cart_item["quantity"] += quantity
                     print(f"✔ Se agregó otra unidad de {product['name']} al carrito.")
                     return
             
             cart_item = product.copy()
-            cart_item["quantity"] = 1
+            cart_item["quantity"] = quantity
             SHOPPING_CART.append(cart_item)
             print(f"✔ El Producto {product["code"]} fue agregado al carrito.")
             return
@@ -103,7 +114,7 @@ def checkout():
 show_menu()
 # show_catalog()
 # os.system("clear")
-add_product_to_shopping_cart("A002")
+# add_product_to_shopping_cart("A002")
 remove_product_to_shopping_cart("A002")
 clear_cart()
 show_cart()
@@ -120,7 +131,8 @@ def main():
             show_catalog()
         elif option == "2":
             code = input("Ingrese el código del producto: ")
-            add_product_to_shopping_cart(code)
+            quantity = input("Ingrese la cantidad del producto: ")
+            add_product_to_shopping_cart(code,quantity)
         elif option == "3":
             code = input("Ingrese el código del producto a eliminar: ")
             remove_product_to_shopping_cart(code)
