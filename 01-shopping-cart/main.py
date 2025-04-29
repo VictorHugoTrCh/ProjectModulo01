@@ -41,15 +41,26 @@ def show_catalog():
         print(f" {product["code"]} | {product["name"]}{" "*(10-len(product["name"]))} | {product["price"]}")
 
 
-def add_product_to_shopping_car(code_product):
+def add_product_to_shopping_cart(code_product):
     for product in WAREHOUSE:
         if code_product == product["code"]:
-            SHOPPING_CART.append(product)
+
+            for cart_item in SHOPPING_CART:
+                if cart_item["code"] == code_product:
+                    cart_item["quantity"] += 1
+                    print(f"✔ Se agregó otra unidad de {product['name']} al carrito.")
+                    return
+            
+            cart_item = product.copy()
+            cart_item["quantity"] = 1
+            SHOPPING_CART.append(cart_item)
             print(f"✔ El Producto {product["code"]} fue agregado al carrito.")
-            break
+            return
+    
+    print(f"❌ El código {code_product} no existe en el catálogo.")
 
 
-def remove_product_to_shopping_car(code_product):
+def remove_product_to_shopping_cart(code_product):
     for i, product in enumerate(SHOPPING_CART):
         if code_product == product["code"]:
             SHOPPING_CART.pop(i)
@@ -57,7 +68,7 @@ def remove_product_to_shopping_car(code_product):
             break
 
 
-def clear_to_shopping_car():
+def clear_cart():
     SHOPPING_CART.clear()
     print("El carrito ha sido limpiado")
 
@@ -84,7 +95,7 @@ def checkout():
         registerd_at = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         add_order_to_file(registerd_at, SHOPPING_CART,total)
         print(f"✔ Compra finalizada. Total: S/{total:.2f}")
-        clear_to_shopping_car()
+        clear_cart()
 
 
 
@@ -92,9 +103,9 @@ def checkout():
 show_menu()
 # show_catalog()
 # os.system("clear")
-add_product_to_shopping_car("A002")
-remove_product_to_shopping_car("A002")
-clear_to_shopping_car()
+add_product_to_shopping_cart("A002")
+remove_product_to_shopping_cart("A002")
+clear_cart()
 show_cart()
 checkout()
 
@@ -112,7 +123,7 @@ def main():
             add_product_to_shopping_cart(code)
         elif option == "3":
             code = input("Ingrese el código del producto a eliminar: ")
-            remove_product_from_cart(code)
+            remove_product_to_shopping_cart(code)
         elif option == "4":
             clear_cart()
         elif option == "5":
@@ -127,8 +138,7 @@ def main():
         input("\nPresione Enter para confirmar...")
 
 
-if __name__ = "__main__":
-    main()
+
 
 
 
@@ -165,3 +175,6 @@ add_order_to_file(
     }],
     4.0
     )
+
+if __name__ == "__main__":
+    main()
